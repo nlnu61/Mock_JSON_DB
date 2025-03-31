@@ -1,26 +1,13 @@
 const express = require('express');
-require('dotenv').config();
-const PORT = process.env.PORT;
+const router = require(" ./routes/pages");
+
 const app = express();
+const PORT = 3000;
 
-//setup our view engine
-app.set('view engine', 'ejs');
-app.set('views', "./views");
-
-
-app.get('/home', (_req, res) =>{
-    res.send('Middleware Triggered');
-});
-
-//example of middleware function
-app.use((_req,_res, next) =>{
-    const time = Date();
-    console.log(time);
-
-    next();
-});
+//implementing routes
+app.use(router);
 
 
 app.listen(PORT, ()=>{
-    console.log(`Connected to port: ${PORT}`);
+    console.log(`Server is running on http://localhost: ${PORT}`);
 });
