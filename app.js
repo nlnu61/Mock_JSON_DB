@@ -1,13 +1,29 @@
 const express = require('express');
-const router = require(" ./routes/pages");
-
+require('dotenv').config();
+const PORT = process.env.PORT;
 const app = express();
-const PORT = 3000;
+const rateLimit = require('express-rate-limit');
+const userRoutes = require('./routes/users.js');
 
-//implementing routes
-app.use(router);
+//setup our view engine
+app.set('view engine', 'ejs');
+app.set('views', "./views");
 
+//rate limiter
+const fixedwindowLimiter = rateLimit({
+    windowMS: 1 * 15 * 1000,
+max: 10,
+message: 'Too many requests. Please try again later',
+
+})
+
+app.use(fixedwindowLimiter);
+
+app.use(express.static('public'));
+app.use(userRoutes);
 
 app.listen(PORT, ()=>{
-    console.log(`Server is running on http://localhost: ${PORT}`);
+    console.log(`Connected to port: ${PORT}`);
 });
+
+
