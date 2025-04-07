@@ -1,6 +1,7 @@
 const fs = require('fs');
-const filePath = '../database.json';
-const { readData, writeData } = require('../utils/file.js');
+const filePath = './database.json';
+
+
 
 
 async function createUser(req, res){
@@ -8,12 +9,14 @@ async function createUser(req, res){
         //function is a utility class function
         const data = await readData();
 
+
+
         //dteremine the last user id using zero-based indexing
         //if length is 2, we minus 1 to get the true index position
         const lastUser = data.users[data.users.length -1];
 
         //default to 1 if no users exist
-        const nextId = lastUser  ? lastUser.id +1 : 1;
+        const nextId = lastUser  ? lastUser.id + 1 : 1;
 
         //create a new user object
         const newUser = {
